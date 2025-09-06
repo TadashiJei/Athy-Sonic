@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "generatedAt": "2025-09-07T01:45:16+08:00",
+  "context": {
+    "project": "Athy Sonic",
+    "repo": "https://github.com/TadashiJei/Athy-Sonic",
+    "backendDir": "backend/",
+    "openapi": "docs/openapi.yaml",
+    "postmanCollection": "docs/athy.postman_collection.json"
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "title": "Baseline setup",
+      "status": "completed",
+      "summary": "NestJS scaffold + dev server running",
+      "done": [
+        "Scaffold Nest v11 strict app in backend/",
+        "Verify local dev server on port 3000"
+      ]
+    },
+    {
+      "id": "M1",
+      "title": "Core S3 API",
+      "status": "in_progress",
+      "summary": "Objects: Put/Get/Head/Delete; Buckets: ListObjectsV2"
+    },
+    {
+      "id": "M2",
+      "title": "Auth & Security",
+      "status": "pending",
+      "summary": "JWT guard, RBAC hooks, SigV4 header validation proxy"
+    },
+    {
+      "id": "M3",
+      "title": "Multipart Uploads",
+      "status": "pending",
+      "summary": "Initiate, Upload Part, Complete, Abort"
+    },
+    {
+      "id": "M4",
+      "title": "Metadata & Blockchain",
+      "status": "pending",
+      "summary": "Integrate Hardhat contracts for FileRegistry/AccessControl"
+    },
+    {
+      "id": "M5",
+      "title": "Storage Pipeline",
+      "status": "pending",
+      "summary": "Fragmentation, AES-256 encryption, distribution, integrity checks"
+    },
+    {
+      "id": "M6",
+      "title": "Observability & Ops",
+      "status": "pending",
+      "summary": "Logging, metrics, health checks, rate limiting"
+    },
+    {
+      "id": "M7",
+      "title": "Testing & CI",
+      "status": "pending",
+      "summary": "Unit, integration, E2E, contract tests; coverage >= 80%"
+    },
+    {
+      "id": "M8",
+      "title": "Packaging & Deployment",
+      "status": "pending",
+      "summary": "Docker images, compose, environment configs"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "CFG-001",
+      "title": "Add configuration management (dotenv, config module)",
+      "status": "completed",
+      "priority": "high",
+      "milestone": "M0",
+      "estimate": "2h",
+      "owners": ["backend"],
+      "links": []
+    },
+    {
+      "id": "API-001",
+      "title": "Implement ObjectsController with Put/Get/Head/Delete",
+      "status": "in_progress",
+      "priority": "high",
+      "milestone": "M1",
+      "estimate": "1d",
+      "owners": ["backend"],
+      "links": ["docs/openapi.yaml#/%7Bbucket%7D/%7Bkey%7D"]
+    },
+    {
+      "id": "API-002",
+      "title": "Implement BucketsController ListObjectsV2",
+      "status": "in_progress",
+      "priority": "high",
+      "milestone": "M1",
+      "estimate": "0.5d",
+      "owners": ["backend"],
+      "links": ["docs/openapi.yaml#/paths/~1%7Bbucket%7D/get"]
+    },
+    {
+      "id": "SEC-001",
+      "title": "JWT auth guard & roles (RBAC) scaffolding",
+      "status": "pending",
+      "priority": "high",
+      "milestone": "M2",
+      "estimate": "1d",
+      "owners": ["backend"],
+      "links": ["SECURITY.md"]
+    },
+    {
+      "id": "SEC-002",
+      "title": "SigV4 header validation middleware (pass-through)",
+      "status": "pending",
+      "priority": "medium",
+      "milestone": "M2",
+      "estimate": "0.5d",
+      "owners": ["backend"],
+      "links": ["docs/openapi.yaml#/components/securitySchemes/SigV4Auth"]
+    },
+    {
+      "id": "MPU-001",
+      "title": "Multipart: initiate, upload part, complete, abort",
+      "status": "pending",
+      "priority": "high",
+      "milestone": "M3",
+      "estimate": "1.5d",
+      "owners": ["backend"],
+      "links": ["docs/openapi.yaml#/paths/~1%7Bbucket%7D~1%7Bkey%7D"]
+    },
+    {
+      "id": "BC-001",
+      "title": "Contract client service (FileRegistry, AccessControl)",
+      "status": "pending",
+      "priority": "medium",
+      "milestone": "M4",
+      "estimate": "1d",
+      "owners": ["backend"],
+      "links": ["ARCHITECTURE.md"]
+    },
+    {
+      "id": "STO-001",
+      "title": "Fragmentation (Reed-Solomon) & AES-256 encryption service",
+      "status": "pending",
+      "priority": "high",
+      "milestone": "M5",
+      "estimate": "2d",
+      "owners": ["backend"],
+      "links": ["ARCHITECTURE.md"]
+    },
+    {
+      "id": "OBS-001",
+      "title": "Logging (winston/pino) & health checks (/health)",
+      "status": "pending",
+      "priority": "medium",
+      "milestone": "M6",
+      "estimate": "0.5d",
+      "owners": ["backend"],
+      "links": []
+    },
+    {
+      "id": "TST-001",
+      "title": "Unit & integration tests for controllers/services",
+      "status": "pending",
+      "priority": "high",
+      "milestone": "M7",
+      "estimate": "1d",
+      "owners": ["backend"],
+      "links": ["CONTRIBUTING.md"]
+    },
+    {
+      "id": "DOC-001",
+      "title": "Keep Postman collection in sync; add examples",
+      "status": "pending",
+      "priority": "low",
+      "milestone": "M7",
+      "estimate": "0.5d",
+      "owners": ["backend"],
+      "links": ["docs/athy.postman_collection.json"]
+    },
+    {
+      "id": "PKG-001",
+      "title": "Dockerfile + docker-compose services (gateway, db)",
+      "status": "pending",
+      "priority": "medium",
+      "milestone": "M8",
+      "estimate": "1d",
+      "owners": ["backend"],
+      "links": ["DEPLOYMENT.md"]
+    }
+  ]
+}
