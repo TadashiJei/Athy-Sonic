@@ -1,0 +1,38 @@
+Athy: A Web3-enabled, S3-compatible Object Storage Solution
+Abstract
+Athy is a decentralized object storage solution designed to provide a secure, S3-compatible, and permissioned file storage system on the blockchain. Leveraging the power of NestJS for its backend architecture and Hardhat for smart contract development and deployment, Athy offers a robust platform for storing and managing digital assets. This document outlines the system's architecture, its key features, and the underlying technology that enables secure, fragmented, and verifiable data storage, with a clear separation of data from metadata and access controls.
+1. Introduction & Problem Statement
+Traditional cloud storage services, while convenient, are centralized and susceptible to single points of failure, censorship, and data breaches. While some decentralized solutions exist, they often lack the robust developer tools, familiar API structures, and fine-grained access controls required for enterprise-grade applications. Athy addresses this gap by combining the scalability of a distributed file system with the immutability and verifiable access control of a blockchain, all exposed through an S3-compatible API.
+2. Architectural Overview
+Athy's architecture is a hybrid model that elegantly separates on-chain (blockchain) and off-chain (backend) responsibilities.
+2.1. The NestJS Gateway
+The NestJS backend acts as the primary gateway for all user interactions. It is built to be a microservice-oriented, scalable application that handles all off-chain logic, including:
+API Management: Exposing a RESTful API that mimics the S3 protocol (PutObject, GetObject, DeleteObject, etc.). This familiarity allows developers to easily integrate Athy into existing applications.
+Data Fragmentation & Encryption: Before data is sent to a storage provider, the NestJS service fragments the file and encrypts each chunk using a symmetric key. This ensures that no single provider holds the complete, unencrypted file.
+Data Brokerage: The gateway serves as a broker, distributing the encrypted data fragments to multiple, decentralized storage providers (nodes) based on a proprietary algorithm that prioritizes availability and redundancy.
+Database Interaction: It interacts with a private off-chain database (e.g., MongoDB) to store temporary or large-scale data that does not need to be on the blockchain, such as user profiles, session tokens, and file fragment locations.
+2.2. The Hardhat-powered Blockchain Layer
+The blockchain layer is the core of Athy's decentralized trust model. Hardhat is the ideal tool for this, as it provides a complete development environment for building, testing, and deploying the smart contracts. This layer is responsible for:
+Metadata Storage: Storing the immutable metadata of each file object, including its name, size, MIME type, and, crucially, the cryptographic hash of each encrypted fragment.
+Access Control: The blockchain layer enforces all permissions. Smart contracts, following robust design patterns like Role-Based Access Control (RBAC), manage which users (identified by their blockchain addresses) have read, write, and delete permissions for specific files.
+Data Verification: A user retrieving a file can use the on-chain metadata to verify the integrity of the downloaded data fragments. By re-hashing the fragments and comparing them against the hashes stored on the blockchain, they can be certain that the data has not been tampered with.
+3. Key Features & Technical Deep Dive
+3.1. S3-Compatible API
+The PutObject flow, for example, is a multi-step process:
+A user's application sends a PutObject request to the NestJS gateway.
+The gateway fragments the file into N pieces and encrypts them with a unique key.
+For each fragment, the gateway calculates a cryptographic hash and sends the encrypted fragment to a decentralized storage node.
+Once all fragments are successfully stored, the gateway sends a transaction to the smart contract on the blockchain. This transaction records the file's metadata and the hashes of the fragments.
+3.2. Decentralized Access Control
+Athy's access control is fully on-chain. This is a critical departure from traditional S3-like systems, where permissions are managed by a central authority. Smart contract functions like grantAccess(address user, bytes32 fileHash) and revokeAccess(address user, bytes32 fileHash) enable transparent, auditable, and immutable permission management. Access checks are performed on-chain by the smart contract before any data is served.
+3.3. File Versioning & Immutability
+Every update to a file object results in a new entry on the blockchain. This effectively creates a verifiable history of all modifications. Instead of overwriting old data, a new set of fragmented files is created, and the new hashes are linked in a chain to the previous version's hash. This provides a clear, immutable record of every version of a file.
+3.4. Redundancy & Self-Healing
+Athy utilizes a robust redundancy model to ensure data availability. The initial fragmentation process creates redundant fragments. If a storage node goes offline, the NestJS gateway can identify the missing fragments and re-generate them from the remaining redundant data, re-distributing them to new, available nodes. This self-healing mechanism is essential for maintaining data integrity and uptime in a decentralized network.
+4. Monetization & Future Vision
+The Athy platform can implement a sustainable monetization model using Web3 principles. Users would pay a small, network-based fee to perform write operations (e.g., PutObject, DeleteObject), which would compensate the NestJS gateway for its computational and network services. Decentralized storage providers would be incentivized through micro-payments for hosting data fragments and serving requests, creating a decentralized and competitive marketplace for storage.
+The long-term vision for Athy includes:
+Interoperability: Integration with other decentralized protocols (e.g., IPFS, Filecoin) to offer a wider range of storage options.
+Smart Contract Automation: The ability to trigger smart contract functions based on file changes, such as running a virus scan on a newly uploaded file or automatically distributing a document to specific users.
+Advanced Data Analytics: Leveraging the on-chain metadata to provide auditable and verifiable data usage metrics for large-scale applications.
+

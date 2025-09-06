@@ -1,0 +1,237 @@
+{
+  "info": {
+    "name": "Athy Sonic API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for Athy Sonic S3-compatible gateway. Supports API key or SigV4 headers."
+  },
+  "item": [
+    {
+      "name": "Objects",
+      "item": [
+        {
+          "name": "PutObject (upload)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "x-api-key", "value": "{{apiKey}}", "type": "text" },
+              { "key": "Authorization", "value": "{{authorization}}", "type": "text" },
+              { "key": "x-amz-date", "value": "{{amzDate}}", "type": "text" },
+              { "key": "x-amz-content-sha256", "value": "{{amzContentSha256}}", "type": "text" },
+              { "key": "Content-Type", "value": "{{contentType}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/{{bucket}}/{{key}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{bucket}}", "{{key}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "<binary or text content here>",
+              "options": { "raw": { "language": "text" } }
+            }
+          }
+        },
+        {
+          "name": "GetObject (download)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-api-key", "value": "{{apiKey}}", "type": "text" },
+              { "key": "Authorization", "value": "{{authorization}}", "type": "text" },
+              { "key": "x-amz-date", "value": "{{amzDate}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/{{bucket}}/{{key}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{bucket}}", "{{key}}"]
+            }
+          }
+        },
+        {
+          "name": "HeadObject (metadata)",
+          "request": {
+            "method": "HEAD",
+            "header": [
+              { "key": "x-api-key", "value": "{{apiKey}}", "type": "text" },
+              { "key": "Authorization", "value": "{{authorization}}", "type": "text" },
+              { "key": "x-amz-date", "value": "{{amzDate}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/{{bucket}}/{{key}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{bucket}}", "{{key}}"]
+            }
+          }
+        },
+        {
+          "name": "DeleteObject",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "x-api-key", "value": "{{apiKey}}", "type": "text" },
+              { "key": "Authorization", "value": "{{authorization}}", "type": "text" },
+              { "key": "x-amz-date", "value": "{{amzDate}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/{{bucket}}/{{key}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{bucket}}", "{{key}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Buckets",
+      "item": [
+        {
+          "name": "ListObjectsV2",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "x-api-key", "value": "{{apiKey}}", "type": "text" },
+              { "key": "Authorization", "value": "{{authorization}}", "type": "text" },
+              { "key": "x-amz-date", "value": "{{amzDate}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/{{bucket}}?prefix={{prefix}}&continuation-token={{continuationToken}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{bucket}}"],
+              "query": [
+                { "key": "prefix", "value": "{{prefix}}" },
+                { "key": "continuation-token", "value": "{{continuationToken}}" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Multipart",
+      "item": [
+        {
+          "name": "InitiateMultipartUpload",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "x-api-key", "value": "{{apiKey}}", "type": "text" },
+              { "key": "Authorization", "value": "{{authorization}}", "type": "text" },
+              { "key": "x-amz-date", "value": "{{amzDate}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/{{bucket}}/{{key}}?uploads=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{bucket}}", "{{key}}"],
+              "query": [ { "key": "uploads", "value": "true" } ]
+            }
+          }
+        },
+        {
+          "name": "UploadPart",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "x-api-key", "value": "{{apiKey}}", "type": "text" },
+              { "key": "Authorization", "value": "{{authorization}}", "type": "text" },
+              { "key": "x-amz-date", "value": "{{amzDate}}", "type": "text" },
+              { "key": "Content-Type", "value": "{{contentType}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/{{bucket}}/{{key}}?uploadId={{uploadId}}&partNumber={{partNumber}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{bucket}}", "{{key}}"],
+              "query": [
+                { "key": "uploadId", "value": "{{uploadId}}" },
+                { "key": "partNumber", "value": "{{partNumber}}" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "<binary or text content for part>",
+              "options": { "raw": { "language": "text" } }
+            }
+          }
+        },
+        {
+          "name": "CompleteMultipartUpload",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "x-api-key", "value": "{{apiKey}}", "type": "text" },
+              { "key": "Authorization", "value": "{{authorization}}", "type": "text" },
+              { "key": "x-amz-date", "value": "{{amzDate}}", "type": "text" },
+              { "key": "Content-Type", "value": "application/json", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/{{bucket}}/{{key}}?uploadId={{uploadId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{bucket}}", "{{key}}"],
+              "query": [ { "key": "uploadId", "value": "{{uploadId}}" } ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parts\": [\n    { \"partNumber\": 1, \"etag\": \"<etag-from-upload-part>\" }\n  ]\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "AbortMultipartUpload",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "x-api-key", "value": "{{apiKey}}", "type": "text" },
+              { "key": "Authorization", "value": "{{authorization}}", "type": "text" },
+              { "key": "x-amz-date", "value": "{{amzDate}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/{{bucket}}/{{key}}?uploadId={{uploadId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["{{bucket}}", "{{key}}"],
+              "query": [ { "key": "uploadId", "value": "{{uploadId}}" } ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Presign",
+      "item": [
+        {
+          "name": "Create presigned URL",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "x-api-key", "value": "{{apiKey}}", "type": "text" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/presign",
+              "host": ["{{baseUrl}}"],
+              "path": ["presign"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operation\": \"GET\",\n  \"bucket\": \"{{bucket}}\",\n  \"key\": \"{{key}}\",\n  \"expiresInSeconds\": {{expiresInSeconds}}\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "apiKey", "value": "" },
+    { "key": "authorization", "value": "" },
+    { "key": "amzDate", "value": "" },
+    { "key": "amzContentSha256", "value": "" },
+    { "key": "bucket", "value": "my-bucket" },
+    { "key": "key", "value": "document.pdf" },
+    { "key": "prefix", "value": "" },
+    { "key": "continuationToken", "value": "" },
+    { "key": "uploadId", "value": "" },
+    { "key": "partNumber", "value": "1" },
+    { "key": "contentType", "value": "application/octet-stream" },
+    { "key": "expiresInSeconds", "value": "900" }
+  ]
+}
